@@ -6,12 +6,16 @@
 name: Continuous Integration and Deployment
 
 on:
+  push:
+    branches:
+      - master
+      # - pulls/()
   pull_request:
-    types: [ opened, edited, reopened ]
+    types: [opened, edited, reopened]
 
 jobs:
   build:
-    name: "Generate and Test Dictionaries"
+    name: "Generate and Test Dictionaries (development build)"
     runs-on: ubuntu-latest
 
     env:
@@ -30,25 +34,42 @@ jobs:
 
       - name: Get Latest LDDTool and Validate Versions
         run: |
-          echo ::set-env name=LDDTOOL_VERSION::$(curl --silent "https://api.github.com/repos/NASA-PDS-Incubator/pds4-information-model/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/v//')
-          echo ::set-env name=VALIDATE_VERSION::$(curl --silent "https://api.github.com/repos/NASA-PDS-Incubator/validate/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/v//')
+          echo ::set-env name=LDDTOOL_VERSION::$(curl --silent "https://api.github.com/repos/NASA-PDS/pds4-information-model/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/v//')
+          echo ::set-env name=VALIDATE_VERSION::$(curl --silent "https://api.github.com/repos/NASA-PDS/validate/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/v//')
+
+          # IM Version is only needed for release time, but keeping here for now
+          # echo ::set-env name=IM_VERSION::$(curl --silent "https://raw.githubusercontent.com/NASA-PDS/pds4-information-model/v$LDDTOOL_VERSION/model-ontology/src/ontology/Data/config.properties" | grep "infoModelVersionId" | awk -F= '{print $NF}')
 
       - name: Download and Unpack LDDTool
         run: |
-          wget --directory-prefix=/tmp https://github.com/NASA-PDS-Incubator/pds4-information-model/releases/download/v$LDDTOOL_VERSION/lddtool-$LDDTOOL_VERSION-bin.tar.gz
+          wget --directory-prefix=/tmp https://github.com/NASA-PDS/pds4-information-model/releases/download/v$LDDTOOL_VERSION/lddtool-$LDDTOOL_VERSION-bin.tar.gz
           tar -xf /tmp/lddtool-$LDDTOOL_VERSION-bin.tar.gz -C /tmp/
 
       - name: Generate Dictionaries
         run: |
-          mkdir -p build; cd build
-          /tmp/lddtool-$LDDTOOL_VERSION/bin/lddtool -plJnl $(pwd)/../src/dependencies/*/src/*IngestLDD*.xml $(pwd)/../src/*IngestLDD*.xml
+          echo "+++ Cleanup development versions if they exist"
+          mkdir -p build/development/; cd build/development/; rm -fr ./*
 
-      # - name: Complete Regression Tests
+          echo "+++ Generate dictionaries"
+          if [ -d "$(pwd)/../src/dependencies" ]; then
+            files=$(pwd)/../src/dependencies/*/src/*IngestLDD*.xml $(pwd)/../src/*IngestLDD*.xml
+          else
+            files=$(pwd)/../src/*IngestLDD*.xml
+          fi
+
+          /tmp/lddtool-$LDDTOOL_VERSION/bin/lddtool -plJn $files
+
+      - name: Validate Schemas and Schematrons
+        run: |
+          wget --directory-prefix=/tmp https://github.com/NASA-PDS-Incubator/validate/releases/download/v$VALIDATE_VERSION/validate-${VALIDATE_VERSION}-bin.tar.gz
+          tar -xf /tmp/validate-${VALIDATE_VERSION}-bin.tar.gz
+
+          /tmp/validate-$VALIDATE_VERSION/bin/validate -x *.xsd -S *.sch -t *.xml
+
+      # - name: Complete Regression Tests (if applicable)
       #   run: |
       #     wget --directory-prefix=/tmp https://github.com/NASA-PDS-Incubator/validate/releases/download/v$VALIDATE_VERSION/validate-${VALIDATE_VERSION}-bin.tar.gz
       #     tar -xf /tmp/validate-${VALIDATE_VERSION}-bin.tar.gz
-
-      #     /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation *.xml  # TODO - do not want to validate all XML
 
       #     if [ -d "$(pwd)/../test" ]; then
       #       TBD some regression test VALID
