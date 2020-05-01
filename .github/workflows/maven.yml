@@ -70,7 +70,7 @@ jobs:
 
           /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x $DEPLOY_DIR/*.xsd -S *.sch -t $DEPLOY_DIR/*.xml
         id: validate_schemas
-        # continue-on-error: True
+        continue-on-error: True
 
       # - name: Complete Regression Tests (if applicable)
       #   run: |
