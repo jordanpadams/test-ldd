@@ -92,9 +92,6 @@ jobs:
           name: validate-reports
           path: $VAL_REPORT_DIR
 
-      - name: Check Validation Success
-        if: ${{ success() }}
-
       - name: Add Dictionaries to Pull Request
         run: |
             git config --local user.email "action@github.com"
@@ -103,3 +100,4 @@ jobs:
             git add .
             git commit -m "Auto-generated dictionaries from Github Actions"
             git push
+        if: ${{ success() }}
