@@ -28,6 +28,6 @@ jobs:
     - name: Download and Run LDDTool
       run: |
          wget https://github.com/NASA-PDS-Incubator/pds4-information-model/releases/download/v10.1.2/lddtool-10.1.2-bin.tar.gz
-         tar -xvzf lddtool-10.1.2-bin.tar.gz
+         tar -xf lddtool-10.1.2-bin.tar.gz
          lddtool-10.1.2/bin/lddtool --help
-         lddtool -plJnl PDS4_IMG_IngestLDD_1A10.xml
+         lddtool-10.1.2/bin/lddtool -plJnl PDS4_IMG_IngestLDD_1A10.xml
