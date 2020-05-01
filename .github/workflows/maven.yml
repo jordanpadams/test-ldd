@@ -38,7 +38,6 @@ jobs:
         run: |
           mkdir -p build; cd build
           /tmp/lddtool-${LDDTOOL_VERSION}/bin/lddtool -plJnl $(pwd)/../src/dependencies/*/src/*IngestLDD*.xml $(pwd)/../src/*IngestLDD*.xml
-        env:
 
       # - name: Complete Regression Tests
       #   run: |
