@@ -62,7 +62,7 @@ jobs:
       - name: Validate Schemas and Schematrons
         run: |
           wget --directory-prefix=/tmp https://github.com/NASA-PDS-Incubator/validate/releases/download/v$VALIDATE_VERSION/validate-${VALIDATE_VERSION}-bin.tar.gz
-          tar -xf /tmp/validate-${VALIDATE_VERSION}-bin.tar.gz
+          tar -xf /tmp/validate-${VALIDATE_VERSION}-bin.tar.gz -C /tmp/
 
           /tmp/validate-$VALIDATE_VERSION/bin/validate -x *.xsd -S *.sch -t *.xml
 
