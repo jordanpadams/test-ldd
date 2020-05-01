@@ -30,12 +30,12 @@ jobs:
     - name: Download and Unpack LDDTool
       run: |
          wget https://github.com/NASA-PDS-Incubator/pds4-information-model/releases/download/v10.1.2/lddtool-10.1.2-bin.tar.gz
-         tar -xf lddtool-10.1.2-bin.tar.gz
+         tar -xf lddtool-10.1.2-bin.tar.gz -C /tmp/
 
     - name: Generate Dictionaries
       run: |
-         lddtool-10.1.2/bin/lddtool --help
-         lddtool-10.1.2/bin/lddtool -plJnl PDS4_IMG_IngestLDD_1A10.xml
+         /tmp/lddtool-10.1.2/bin/lddtool --help
+         /tmp/lddtool-10.1.2/bin/lddtool -plJnl PDS4_IMG_IngestLDD_1A10.xml
 
 
     - name: Add Dictionaries to Pull Request
@@ -43,4 +43,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git config --local github.token ${{ secrets.GITHUB_TOKEN }}
-          git commit -m "Add changes" -a
+          git add .
+          git commit -m "Add changes"
