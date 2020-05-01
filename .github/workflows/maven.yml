@@ -32,9 +32,7 @@ jobs:
       - name: Generate Dictionaries
         run: |
           mkdir -p build; cd build
-          for dir in $(find $(pwd)/../src/dependencies/); do
-            ls $dir
-          done
+          ls $(pwd)/../src/dependencies/*/src/*IngestLDD*.xml
           /tmp/lddtool-10.1.2/bin/lddtool -plJnl $(pwd)/../src/dependencies/*/src/*IngestLDD*.xml $(pwd)/../src/*IngestLDD*.xml
 
       - name: Add Dictionaries to Pull Request
