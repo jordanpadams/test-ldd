@@ -51,10 +51,10 @@ jobs:
           mkdir -p build/development/; cd build/development/; rm -fr ./*
 
           echo "+++ Generate dictionaries"
-          if [ -d "$(pwd)/../src/dependencies" ]; then
-            files=$(pwd)/../src/dependencies/*/src/*IngestLDD*.xml $(pwd)/../src/*IngestLDD*.xml
+          if [ -d "$(pwd)/../../src/dependencies" ]; then
+            files=$(pwd)/../../src/dependencies/*/src/*IngestLDD*.xml $(pwd)/../../src/*IngestLDD*.xml
           else
-            files=$(pwd)/../src/*IngestLDD*.xml
+            files=$(pwd)/../../src/*IngestLDD*.xml
           fi
 
           /tmp/lddtool-$LDDTOOL_VERSION/bin/lddtool -plJn $files
