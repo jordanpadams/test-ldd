@@ -19,8 +19,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      VAL_REPORT_DIR: ${{ format('{0}/{1}/', env.GITHUB_WORKSPACE, 'validation-reports') }}
-      REG_TEST_DIR: ${{ format('{0}/{1}/', env.GITHUB_WORKSPACE, 'test') }}
+      VAL_REPORT_DIR: ${{ format('{0}/{1}/', github.workspace, 'validation-reports') }}
+      REG_TEST_DIR: ${{ format('{0}/{1}/', github.workspace, 'test') }}
 
     steps:
       - uses: actions/checkout@v2
