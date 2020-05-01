@@ -79,7 +79,7 @@ jobs:
 
       #     if [ -d "$TEST_DIR" ]; then
       #       # Run test expected valid
-      #       /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x *.xsd -S *.sch -t $REG_TEST_DIR/*VALID.xml | tee -a $VAL_REPORT_DIR/validate_regtest_report.txt
+      #       /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x $DEPLOY_DIR/*.xsd -S $DEPLOY_DIR/*.sch -t $REG_TEST_DIR/*VALID.xml
 
       #       # Run tests expected invalid
       #       # TBD some regression test FAIL
