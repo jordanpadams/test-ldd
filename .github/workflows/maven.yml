@@ -19,8 +19,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      VAL_REPORT_DIR: ${{ format('{0}/{1}/', github.workspace, 'validation-reports') }}
       REG_TEST_DIR: ${{ format('{0}/{1}/', github.workspace, 'test') }}
+      DEPLOY_DIR: ${{ format('{0}/{1}/', github.workspace, 'build/development') }}
 
     steps:
       - uses: actions/checkout@v2
@@ -49,7 +49,7 @@ jobs:
       - name: Generate Dictionaries
         run: |
           echo "+++ Cleanup development versions if they exist"
-          mkdir -p build/development/; cd build/development/; rm -fr ./*
+          mkdir -p $DEPLOY_DIR; cd $DEPLOY_DIR; rm -fr ./*
 
           echo "+++ Generate dictionaries"
           dependencies_dir=$GITHUB_WORKSPACE/src/dependencies
@@ -59,6 +59,7 @@ jobs:
             files="$GITHUB_WORKSPACE/src/*IngestLDD*.xml"
           fi
 
+          echo "+++ Generating dictionaries for $files"
           /tmp/lddtool-$LDDTOOL_VERSION/bin/lddtool -plJn $files
 
       - name: Validate Schemas and Schematrons
@@ -66,8 +67,7 @@ jobs:
           wget --directory-prefix=/tmp https://github.com/NASA-PDS/validate/releases/download/v$VALIDATE_VERSION/validate-${VALIDATE_VERSION}-bin.tar.gz
           tar -xf /tmp/validate-${VALIDATE_VERSION}-bin.tar.gz -C /tmp/
 
-          mkdir -p $VAL_REPORT_DIR
-          /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x *.xsd -S *.sch -t *.xml | tee -a $VAL_REPORT_DIR/validate_schemas_report.txt
+          /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x *.xsd -S *.sch -t *.xml
         id: validate_schemas
         continue-on-error: True
 
@@ -85,12 +85,6 @@ jobs:
       #     fi
       #   id: regression_tests
       #   continue-on-error: True
-
-      - name: Upload Validation Reports
-        uses: actions/upload-artifact@v1
-        with:
-          name: validation-reports
-          path: ${{ env.VAL_REPORT_DIR }}
 
       - name: Add Dictionaries to Pull Request
         run: |
