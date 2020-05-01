@@ -5,18 +5,17 @@
 
 name: Continuous Integration and Deployment
 
-on: push
-  # pull_request:
-  #   types: [ opened, edited, reopened ]
+on:
+  pull_request:
+    types: [ opened, edited, reopened ]
 
 jobs:
   build:
-    name: "Build Dictionaries"
+    name: "Generate and Test Dictionaries"
     runs-on: ubuntu-latest
 
     env:
-      LDDTOOL_VERSION: 
-      
+      LDDTOOL_VERSION:
 
     steps:
       - uses: actions/checkout@v2
@@ -29,7 +28,7 @@ jobs:
       - name: Checkout submodules
         uses: textbook/git-checkout-submodule-action@master
 
-      - name: Get LDDTool and Validate Versions
+      - name: Get Latest LDDTool and Validate Versions
         run: |
           echo ::set-env name=LDDTOOL_VERSION::$(curl --silent "https://api.github.com/repos/NASA-PDS-Incubator/pds4-information-model/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/v//')
           echo ::set-env name=VALIDATE_VERSION::$(curl --silent "https://api.github.com/repos/NASA-PDS-Incubator/validate/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/v//')
