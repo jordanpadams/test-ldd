@@ -3,10 +3,9 @@
 
 name: Run LDDTool
 
-on:
-   push:
-     branches:
-       - master
+on: [push, pull_request]
+#  pull_request:
+#    types: opened
 
 jobs:
   build:
@@ -31,3 +30,4 @@ jobs:
          wget https://github.com/NASA-PDS-Incubator/pds4-information-model/releases/download/v10.1.2/lddtool-10.1.2-bin.tar.gz
          tar -xvzf lddtool-10.1.2-bin.tar.gz
          lddtool-10.1.2/bin/lddtool --help
+         lddtool -plJnl PDS4_IMG_IngestLDD_1A10.xml
