@@ -36,8 +36,6 @@ jobs:
 
       - name: Download and Unpack LDDTool
         run: |
-          echo "FOO"
-          ls $LDDTOOL_VERSION
           wget --directory-prefix=/tmp https://github.com/NASA-PDS-Incubator/pds4-information-model/releases/download/v$LDDTOOL_VERSION/lddtool-$LDDTOOL_VERSION-bin.tar.gz
           tar -xf /tmp/lddtool-$LDDTOOL_VERSION-bin.tar.gz -C /tmp/
 
