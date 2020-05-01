@@ -28,8 +28,8 @@ jobs:
 
     - name: Generate Dictionaries
       run: |
-         /tmp/lddtool-10.1.2/bin/lddtool --help
-         /tmp/lddtool-10.1.2/bin/lddtool -plJnl PDS4_IMG_IngestLDD_1A10.xml
+        mkdir -p build; cd build
+        /tmp/lddtool-10.1.2/bin/lddtool -plJnl $(pwd)/../src/dependencies/*/src/*IngestLDD*.xml $(pwd)/../src/*IngestLDD*.xml
 
     - name: Add Dictionaries to Pull Request
       run: |
