@@ -1,0 +1,50 @@
+Error while trying to read in 'file:/home/runner/work/test-lddtool/test-lddtool/*.xsd'
+
+PDS Validate Tool Report
+
+Configuration:
+   Version                       1.22.3
+   Date                          2020-05-01T21:45:25Z
+
+Parameters:
+   Targets                       [file:/home/runner/work/test-lddtool/test-lddtool/*.xml]
+   Rule Type                     pds4.label
+   User Specified Schemas        [file:/home/runner/work/test-lddtool/test-lddtool/*.xsd]
+   User Specified Schematrons    [file:/home/runner/work/test-lddtool/test-lddtool/*.sch]
+   Severity Level                WARNING
+   Recurse Directories           true
+   File Filters Used             [*.xml, *.XML]
+   Data Content Validation       off
+   Product Level Validation      on
+   Max Errors                    100000
+   Registered Contexts File      /tmp/validate-1.22.3/resources/registered_context_products.json
+
+
+
+Product Level Validation Results
+
+  FAIL: file:/home/runner/work/test-lddtool/test-lddtool/*.sch
+      FATAL_ERROR  [error.label.schematron]   /home/runner/work/test-lddtool/test-lddtool/*.sch (No such file or directory)
+        1 product validation(s) completed
+
+Summary:
+
+  1 error(s)
+  0 warning(s)
+
+  Product Validation Summary:
+    0          product(s) passed
+    1          product(s) failed
+    0          product(s) skipped
+
+  Referential Integrity Check Summary:
+    0          check(s) passed
+    0          check(s) failed
+    0          check(s) skipped
+
+  Message Types:
+    1            error.label.schematron
+
+End of Report
+Completed execution in 1398 ms
+
