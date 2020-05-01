@@ -67,9 +67,9 @@ jobs:
           wget --directory-prefix=/tmp https://github.com/NASA-PDS/validate/releases/download/v$VALIDATE_VERSION/validate-${VALIDATE_VERSION}-bin.tar.gz
           tar -xf /tmp/validate-${VALIDATE_VERSION}-bin.tar.gz -C /tmp/
 
-          /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x *.xsd -S *.sch -t *.xml
+          /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x $DEPLOY_DIR/*.xsd -S $DEPLOY_DIR/*.sch -t $DEPLOY_DIR/*.xml
         id: validate_schemas
-        continue-on-error: True
+        # continue-on-error: True
 
       # - name: Complete Regression Tests (if applicable)
       #   run: |
@@ -91,7 +91,7 @@ jobs:
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git config --local github.token ${{ secrets.GITHUB_TOKEN }}
-            git add .
+            git add $DEPLOY_DIR
             git commit -m "Auto-generated dictionaries from Github Actions"
             git push
         if: ${{ success() }}
