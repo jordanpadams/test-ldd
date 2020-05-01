@@ -38,8 +38,9 @@ jobs:
           echo ::set-env name=LDDTOOL_VERSION::$(curl --silent "https://api.github.com/repos/NASA-PDS/pds4-information-model/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/v//')
           echo ::set-env name=VALIDATE_VERSION::$(curl --silent "https://api.github.com/repos/NASA-PDS/validate/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/v//')
 
-          # IM Version is only needed for release time, but keeping here for now
-          echo ::set-env name=IM_VERSION::$(curl --silent "https://raw.githubusercontent.com/NASA-PDS/pds4-information-model/v$LDDTOOL_VERSION/model-ontology/src/ontology/Data/config.properties" | grep "infoModelVersionId" | awk -F= '{print $NF}')
+      - name: Get Latest IM Version
+        run: |
+          echo ::set-env name=IM_VERSION::$(curl --silent "https://raw.githubusercontent.com/NASA-PDS/pds4-information-model/v${{ env.LDDTOOL_VERSION }}/model-ontology/src/ontology/Data/config.properties" | grep 'infoModelVersionId' | awk -F= '{print $NF}')
 
       - name: Download and Unpack LDDTool
         run: |
