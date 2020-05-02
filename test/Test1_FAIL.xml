@@ -125,7 +125,7 @@
           <img:exposure_count>3</img:exposure_count>
           <img:exposure_duration unit="ms">68.31</img:exposure_duration>
           <img:exposure_duration_count>11</img:exposure_duration_count>
-          <img:exposure_type>Auto</img:exposure_type>
+          <img:exposure_type>Foo</img:exposure_type>
         </img:Exposure>
         <img:Flat_Field_Correction>
           <img:Flat_Field_File>
