@@ -98,14 +98,18 @@ jobs:
 
           if [ -d "$TEST_DIR" ]; then
 
-            # Run test expected valid
-            # Get schematron filepath. WARNING: ASSUME ONLY ONE SCHEMATRON PRESENT
-            schematron=$(find $DEPLOY_DIR/*.sch | sed 's/\//\\\//g')
+            # Get the PDS core dictionaries
+            wget --directory-prefix=/tmp "https://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_$IM_VERSION_ALPHA.sch"
 
+            # Find schema filename
+            xsd=$(find $DEPLOY_DIR/*.xsd | head -1)
+
+            # Run test expected valid
             sed -i "s/\[IM_VERSION_ALPHA\]/$IM_VERSION_ALPHA/g" $REG_TEST_DIR/*.xml
             sed -i "s/\[IM_VERSION\]/$IM_VERSION/g" $REG_TEST_DIR/*.xml
-            sed -i "s/\[SCHEMATRON_LOCATION\]/$IM_VERSION/g" $REG_TEST_DIR/*.xml
-            /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x $DEPLOY_DIR/*.xsd -S $DEPLOY_DIR/*.sch -t $REG_TEST_DIR/*VALID*.xml
+            sed -i "s/\[SCHEMA_LOCATION\]/$xsd/g" $REG_TEST_DIR/*.xml
+
+            /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x $DEPLOY_DIR/*.xsd -S $DEPLOY_DIR/*.sch /tmp/*.sch -t $REG_TEST_DIR/*VALID*.xml
 
             # Run tests expected invalid
             # TBD some regression test FAIL
