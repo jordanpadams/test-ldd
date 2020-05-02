@@ -157,7 +157,6 @@
           <img:radiometric_type>Spectral Radiance</img:radiometric_type>
         </img:Radiometric_Correction>
         <img:Sampling>
-          <img:foo>8</img:foo>
           <img:sample_bits>8</img:sample_bits>
           <img:Companding>
             <img:processing_venue>Software</img:processing_venue>
