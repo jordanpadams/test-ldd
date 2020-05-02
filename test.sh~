@@ -1,0 +1,11 @@
+#!/bin/bash
+
+IM_VERSION_ALPHA=$(python -c "
+import string
+import os
+IM_VERSION = '1.14.0.0'
+alphadict = dict(zip(range(10), range(10)))
+for x, y in enumerate(string.ascii_uppercase, 10):
+  alphadict[x] = str(y)
+print(''.join(str(alphadict[int(val)]) for val in IM_VERSION.split('.')))
+")

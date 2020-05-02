@@ -30,6 +30,14 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Set up Python 3
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip setuptools wheel
+
       - name: Checkout submodules
         uses: textbook/git-checkout-submodule-action@master
 
@@ -41,6 +49,20 @@ jobs:
       - name: Get Latest IM Version
         run: |
           echo ::set-env name=IM_VERSION::$(curl --silent "https://raw.githubusercontent.com/NASA-PDS/pds4-information-model/v${{ env.LDDTOOL_VERSION }}/model-ontology/src/ontology/Data/config.properties" | grep 'infoModelVersionId' | awk -F= '{print $NF}')
+
+      - name: Convert IM Version
+        run: |
+          alpha_version=$(python -c "
+          import string
+          import os
+          alphadict = dict(zip(range(10), range(10)))
+          for x, y in enumerate(string.ascii_uppercase, 10):
+            alphadict[x] = str(y)
+          print(''.join(str(alphadict[int(val)]) for val in $IM_VERSION.split('.')))
+          ")
+          echo $alpha_version
+
+          echo ::set-env name=IM_VERSION_ALPHA::$(echo alpha_version)
 
       - name: Download and Unpack LDDTool
         run: |
@@ -69,23 +91,20 @@ jobs:
           tar -xf /tmp/validate-${VALIDATE_VERSION}-bin.tar.gz -C /tmp/
 
           /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x $DEPLOY_DIR/*.xsd -S *.sch -t $DEPLOY_DIR/*.xml
-        id: validate_schemas
-        continue-on-error: True
 
-      # - name: Complete Regression Tests (if applicable)
-      #   run: |
-      #     wget --directory-prefix=/tmp https://github.com/NASA-PDS/validate/releases/download/v$VALIDATE_VERSION/validate-${VALIDATE_VERSION}-bin.tar.gz
-      #     tar -xf /tmp/validate-${VALIDATE_VERSION}-bin.tar.gz
+      - name: Complete Regression Tests (if applicable)
+        run: |
+          wget --directory-prefix=/tmp https://github.com/NASA-PDS/validate/releases/download/v$VALIDATE_VERSION/validate-${VALIDATE_VERSION}-bin.tar.gz
+          tar -xf /tmp/validate-${VALIDATE_VERSION}-bin.tar.gz
 
-      #     if [ -d "$TEST_DIR" ]; then
-      #       # Run test expected valid
-      #       /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x $DEPLOY_DIR/*.xsd -S $DEPLOY_DIR/*.sch -t $REG_TEST_DIR/*VALID.xml
+          if [ -d "$TEST_DIR" ]; then
 
-      #       # Run tests expected invalid
-      #       # TBD some regression test FAIL
-      #     fi
-      #   id: regression_tests
-      #   continue-on-error: True
+            # Run test expected valid
+            /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x $DEPLOY_DIR/*.xsd -S $DEPLOY_DIR/*.sch -t $REG_TEST_DIR/*VALID.xml
+
+            # Run tests expected invalid
+            # TBD some regression test FAIL
+          fi
 
       - name: Add Dictionaries to Pull Request
         run: |
