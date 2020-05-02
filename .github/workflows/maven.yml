@@ -99,7 +99,13 @@ jobs:
           if [ -d "$TEST_DIR" ]; then
 
             # Run test expected valid
-            /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x $DEPLOY_DIR/*.xsd -S $DEPLOY_DIR/*.sch -t $REG_TEST_DIR/*VALID.xml
+            # Get schematron filepath. WARNING: ASSUME ONLY ONE SCHEMATRON PRESENT
+            schematron=$(find $DEPLOY_DIR/*.sch | sed 's/\//\\\//g')
+
+            sed -i "s/\[IM_VERSION_ALPHA\]/$IM_VERSION_ALPHA/g" $REG_TEST_DIR/*.xml
+            sed -i "s/\[IM_VERSION\]/$IM_VERSION/g" $REG_TEST_DIR/*.xml
+            sed -i "s/\[SCHEMATRON_LOCATION\]/$IM_VERSION/g" $REG_TEST_DIR/*.xml
+            /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x $DEPLOY_DIR/*.xsd -S $DEPLOY_DIR/*.sch -t $REG_TEST_DIR/*VALID*.xml
 
             # Run tests expected invalid
             # TBD some regression test FAIL

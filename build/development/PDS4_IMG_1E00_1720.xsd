@@ -282,6 +282,7 @@
         state of the image as acquired.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
+      <xs:element name="foo" type="pds:name" minOccurs="0" maxOccurs="1"> </xs:element>
       <xs:element name="description" type="pds:description" minOccurs="0" maxOccurs="1"> </xs:element>
       <xs:element name="Brightness_Correction" type="img:Brightness_Correction" minOccurs="0" maxOccurs="1"> </xs:element>
       <xs:element name="Color_Filter_Array" type="img:Color_Filter_Array" minOccurs="0" maxOccurs="1"> </xs:element>
