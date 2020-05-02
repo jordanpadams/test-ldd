@@ -61,7 +61,7 @@ jobs:
           print(''.join(str(alphadict[int(val)]) for val in '$IM_VERSION'.split('.')))
           ")
 
-          echo ::set-env name=IM_VERSION_ALPHA::$(echo alpha_version)
+          echo ::set-env name=IM_VERSION_ALPHA::$(echo $alpha_version)
 
       - name: Download and Unpack LDDTool
         run: |
