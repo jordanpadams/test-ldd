@@ -58,7 +58,7 @@ jobs:
           alphadict = dict(zip(range(10), range(10)))
           for x, y in enumerate(string.ascii_uppercase, 10):
             alphadict[x] = str(y)
-          print(''.join(str(alphadict[int(val)]) for val in $IM_VERSION.split('.')))
+          print(''.join(str(alphadict[int(val)]) for val in '$IM_VERSION'.split('.')))
           ")
           echo $alpha_version
 
