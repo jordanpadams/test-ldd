@@ -97,18 +97,16 @@ jobs:
 
             # Get the PDS core dictionaries
             wget --directory-prefix=/tmp "https://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_$IM_VERSION_ALPHA.sch"
-            wget --directory-prefix=/tmp "https://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_$IM_VERSION_ALPHA.xsd"
 
             # Find schema filename
-            pds_xsd="file:\/\/$(find /tmp/*.xsd | head -1 | sed 's/\//\\\//g')"
             xsd="file:\/\/$(find $DEPLOY_DIR/*.xsd | head -1 | sed 's/\//\\\//g')"
 
             # Update info in examples
+            sed -i "s/\[IM_VERSION_ALPHA\]/$IM_VERSION_ALPHA/g" $REG_TEST_DIR/*.xml
             sed -i "s/\[IM_VERSION\]/$IM_VERSION/g" $REG_TEST_DIR/*.xml
-            sed -i "s/\[PDS_SCHEMA_LOCATION\]/$pds_xsd/g" $REG_TEST_DIR/*.xml
             sed -i "s/\[SCHEMA_LOCATION\]/$xsd/g" $REG_TEST_DIR/*.xml
 
-            /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -S $DEPLOY_DIR/*.sch /tmp/*.sch -t $REG_TEST_DIR/*VALID*.xml
+            /tmp/validate-$VALIDATE_VERSION/bin/validate --skip-content-validation -R pds4.label -x $DEPLOY_DIR/*.xsd -S $DEPLOY_DIR/*.sch /tmp/*.sch -t $REG_TEST_DIR/*VALID*.xml
 
             # Run tests expected invalid
             # TBD some regression test FAIL
