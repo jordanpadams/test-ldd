@@ -93,16 +93,13 @@ jobs:
 
       - name: Complete Regression Tests (if applicable)
         run: |
-          wget --directory-prefix=/tmp https://github.com/NASA-PDS/validate/releases/download/v$VALIDATE_VERSION/validate-${VALIDATE_VERSION}-bin.tar.gz
-          tar -xf /tmp/validate-${VALIDATE_VERSION}-bin.tar.gz
-
           if [ -d "$TEST_DIR" ]; then
 
             # Get the PDS core dictionaries
             wget --directory-prefix=/tmp "https://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_$IM_VERSION_ALPHA.sch"
 
             # Find schema filename
-            xsd=file:\/\/$(find $DEPLOY_DIR/*.xsd | head -1 | sed 's/\//\\\//g')
+            xsd="file:\/\/$(find $DEPLOY_DIR/*.xsd | head -1 | sed 's/\//\\\//g')"
 
             # Update dictionaries in 
             sed -i "s/\[IM_VERSION_ALPHA\]/$IM_VERSION_ALPHA/g" $REG_TEST_DIR/*.xml
