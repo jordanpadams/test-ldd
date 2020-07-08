@@ -6,12 +6,13 @@
 name: Continuous Integration and Deployment
 
 on:
-  #push:
-  #  branches:
-  #    - master
+  push:
+    branches:
+      - master
       # - pulls/()
   pull_request:
-    types: [opened, edited, reopened]
+    branches:
+      - master
 
 jobs:
   build:
