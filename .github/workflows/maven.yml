@@ -6,9 +6,9 @@
 name: Continuous Integration and Deployment
 
 on:
-  push:
-    branches:
-      - master
+  #push:
+  #  branches:
+  #    - master
       # - pulls/()
   pull_request:
     types: [opened, edited, reopened]
@@ -71,7 +71,7 @@ jobs:
       - name: Generate Dictionaries
         run: |
           echo "+++ Cleanup development versions if they exist"
-          mkdir -p $DEPLOY_DIR; cd $DEPLOY_DIR; rm -fr ./*
+          mkdir -p $DEPLOY_DIR; cd $DEPLOY_DIR; git rm -fr ./*
 
           echo "+++ Generate dictionaries"
           dependencies_dir=$GITHUB_WORKSPACE/src/dependencies
