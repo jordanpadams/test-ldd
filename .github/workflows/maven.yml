@@ -84,7 +84,7 @@ jobs:
           fi
 
           echo "+++ Generating dictionaries for $files"
-          /tmp/lddtool-$LDDTOOL_VERSION/bin/lddtool -plJn $files
+          echo /tmp/lddtool-$LDDTOOL_VERSION/bin/lddtool -plJn $files
 
       - name: Validate Schemas and Schematrons
         run: |
