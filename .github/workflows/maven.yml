@@ -68,12 +68,12 @@ jobs:
         run: |
           wget --directory-prefix=/tmp https://github.com/NASA-PDS/pds4-information-model/releases/download/v$LDDTOOL_VERSION/lddtool-$LDDTOOL_VERSION-bin.tar.gz
           tar -xf /tmp/lddtool-$LDDTOOL_VERSION-bin.tar.gz -C /tmp/
-          echo $DEPLOY_DIR
+          echo $GITHUB_WORKSPACE
 
       - name: Generate Dictionaries
         run: |
           echo "+++ Cleanup development versions if they exist"
-          mkdir -p $DEPLOY_DIR; cd $DEPLOY_DIR; git rm -fr ./*
+          mkdir -p $DEPLOY_DIR; cd $DEPLOY_DIR; git rm -fr $DEPLOY_DIR/*
 
           echo "+++ Generate dictionaries"
           dependencies_dir=$GITHUB_WORKSPACE/src/dependencies
