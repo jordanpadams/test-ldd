@@ -121,6 +121,7 @@ jobs:
             git config --local github.token ${{ secrets.GITHUB_TOKEN }}
             git add $DEPLOY_DIR
             git commit -m "Auto-generated dictionaries from Github Actions"
-            git branch
-            #git push 
+            git config --global push.default current
+            #git branch
+            git push 
         if: ${{ success() }}
