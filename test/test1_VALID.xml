@@ -53,7 +53,7 @@
 
     <Discipline_Area>
       <example:My_First_LDD>
-        <example:my_first_attribute>1</example:my_first_attribute>
+        <example:my_first_attribute>foo</example:my_first_attribute>
       </example:My_First_LDD>
     </Discipline_Area
 >
