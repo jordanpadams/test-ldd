@@ -15,16 +15,6 @@
     <title>My First Product</title>
     <information_model_version>[IM_VERSION]</information_model_version>
     <product_class>Product_Observational</product_class>
-    <Citation_Information>
-      <author_list>
-        FOO
-      </author_list>
-      <publication_year>2018</publication_year>
-      <doi>10.17189/1517566</doi>
-      <description>
-        FOO
-      </description>
-    </Citation_Information>
   </Identification_Area>
   <Observation_Area>
     <Time_Coordinates>
@@ -53,7 +43,7 @@
 
     <Discipline_Area>
       <example:My_First_LDD>
-        <example:my_first_attribute>foo</example:my_first_attribute>
+        <example:my_first_attribute>1</example:my_first_attribute>
       </example:My_First_LDD>
     </Discipline_Area
 >
