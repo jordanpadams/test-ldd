@@ -1,30 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
-<!-- NOTE: DO NOT INCLUDE SPECIFIC SCHEMATRONS IN LABEL. THEY WILL BE ADDED VIA PIPELINE -->
+<!-- NOTE: DO NOT INCLUDE SPECIFIC SCHEMATRONS IN LABEL. THEY WILL BE ADDED VIA COMMAND-LINE -->
 
 <Product_Observational xmlns="http://pds.nasa.gov/pds4/pds/v1" 
   xmlns:example="http://pds.nasa.gov/pds4/example/v1"  
   xmlns:pds="http://pds.nasa.gov/pds4/pds/v1" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <!-- NOTE: DO NOT INCLUDE SPECIFIC SCHEMALOCATIONS IN LABEL. THEY WILL BE ADDED VIA PIPELINE -->
-
   <Identification_Area>
     <logical_identifier>urn:nasa:pds:bundle:collection:product</logical_identifier>
     <version_id>1.0</version_id>
     <title>My First Product</title>
-    <information_model_version>[IM_VERSION]</information_model_version>
+    <information_model_version>1.14.0.0</information_model_version>
     <product_class>Product_Observational</product_class>
-    <Citation_Information>
-      <author_list>
-        FOO
-      </author_list>
-      <publication_year>2018</publication_year>
-      <doi>10.17189/1517566</doi>
-      <description>
-        FOO
-      </description>
-    </Citation_Information>
   </Identification_Area>
   <Observation_Area>
     <Time_Coordinates>
@@ -53,7 +41,7 @@
 
     <Discipline_Area>
       <example:My_First_LDD>
-        <example:my_first_attribute>1</example:my_first_attribute>
+        <example:my_first_attribute>foo</example:my_first_attribute>
       </example:My_First_LDD>
     </Discipline_Area
 >
