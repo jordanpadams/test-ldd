@@ -6,7 +6,6 @@ on:
    push:
      branches:
        - '*'
-       - '!master'
 
 env:
   REGRESSION_TEST_PATH: ${{ format('{0}/{1}/', github.workspace, 'test') }}
