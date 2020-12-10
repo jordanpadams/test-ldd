@@ -11,20 +11,19 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-    - id: set-matrix
-      # run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"1.14.0.0\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
-      run: |
-        ls $GITHUB_WORKSPACE
-
-        # cat $GITHUB_WORKSPACE/pds4_versions.txt
-
-        # while read -r line; do
-        #     if [[ ! -z "$line" ]]; then
-        #         versions=$versions'\"'$line'\"',
-        #     fi
-        # done < $GITHUB_WORKSPACE/pds4_versions.txt
-        # echo "${versions::-1}"
-        # echo "::set-output name=matrix::{\"pds4_version\":${versions::-1}}"
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
+      - id: set-matrix
+        # run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"1.14.0.0\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+        run: |
+          while read -r line; do
+              if [[ ! -z "$line" ]]; then
+                  versions=$versions'\"'$line'\"',
+              fi
+          done < $GITHUB_WORKSPACE/pds4_versions.txt
+          echo "${versions::-1}"
+          echo "::set-output name=matrix::{\"pds4_version\":${versions::-1}}"
 
   job2:
     needs: job1
