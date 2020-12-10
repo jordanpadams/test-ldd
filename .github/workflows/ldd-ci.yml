@@ -16,15 +16,15 @@ jobs:
       run: |
         ls $GITHUB_WORKSPACE
 
-        cat $GITHUB_WORKSPACE/pds4_versions.txt
+        # cat $GITHUB_WORKSPACE/pds4_versions.txt
 
-        while read -r line; do
-            if [[ ! -z "$line" ]]; then
-                versions=$versions'\"'$line'\"',
-            fi
-        done < $GITHUB_WORKSPACE/pds4_versions.txt
-        echo "${versions::-1}"
-        echo "::set-output name=matrix::{\"pds4_version\":${versions::-1}}"
+        # while read -r line; do
+        #     if [[ ! -z "$line" ]]; then
+        #         versions=$versions'\"'$line'\"',
+        #     fi
+        # done < $GITHUB_WORKSPACE/pds4_versions.txt
+        # echo "${versions::-1}"
+        # echo "::set-output name=matrix::{\"pds4_version\":${versions::-1}}"
 
   job2:
     needs: job1
