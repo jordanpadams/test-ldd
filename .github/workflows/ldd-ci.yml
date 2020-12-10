@@ -1,0 +1,32 @@
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java#apache-maven-with-a-settings-path
+
+---
+
+name: build
+on: push
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - id: set-matrix
+      # run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"1.14.0.0\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+      run: |
+        while read -r line; do
+            if [[ ! -z "$line" ]]; then
+                versions=$versions'\"'$line'\"',
+            fi
+        done < $GITHUB_WORKSPACE/pds4_versions.txt
+        echo "${versions::-1}"
+        echo "::set-output name=matrix::{\"pds4_version\":${versions::-1}}"
+
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
+    steps:
+    - run:
+        echo ${{matrix.pds4_version}}

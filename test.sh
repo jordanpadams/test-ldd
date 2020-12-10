@@ -4,4 +4,4 @@ while read -r line; do
     fi
 done < pds4_versions.txt
 
-echo ${versions}
+echo ${versions::-1}
