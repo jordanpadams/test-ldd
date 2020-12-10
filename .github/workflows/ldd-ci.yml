@@ -3,38 +3,20 @@
 
 ---
 
-name: Continuous Integration and Deployment
-
+name: build
 on: push
-
 jobs:
-  get_versions:
+  job1:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
     - id: set-matrix
       run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
-
-  build: # job 1
-    name: 'LDD Build'
+  job2:
+    needs: job1
     runs-on: ubuntu-latest
-    if: github.actor != 'pdsen-ci'
-
     strategy:
-      matrix:
-        pds4_version: ${{fromJson(needs.get_versions.outputs.matrix)}}
-
+      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
-
-      - name: Set up Python 3
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.7'
-
-      - name: Check
-        run: |
-          echo "FOOO: " ${{ matrix.include }}
+    - run: build
