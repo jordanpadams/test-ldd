@@ -20,16 +20,17 @@ jobs:
                   versions=$versions'"'$line'"',
               fi
           done < $GITHUB_WORKSPACE/pds4_versions.txt
-          foo=[${versions::-1}]
+          foo="[${versions::-1}]"
           echo "{\"pds4_version\":${foo}}"
-          echo "::set-output name=matrix::$foo"
+          echo "::set-output name=matrix::{\"pds4_version\": $foo}"
 
   job2:
     needs: job1
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-          pds4_version: ["1.14.0.0","1.15.0.0"]
+    # strategy:
+    #   matrix:
+    #       pds4_version: ${{needs.job1.outputs.matrix}}
     steps:
     - run:
-        echo ${{matrix.pds4_version}}
+        echo ${{needs.job1.outputs.matrix}}
+        # echo ${{matrix.pds4_version}}
