@@ -1,12 +1,22 @@
 # This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java#apache-maven-with-a-settings-path
-
 ---
+name: LDD Automation with PDSEN CI Bot
+on:
+   push:
+     branches:
+       - '*'
+       - '!master'
 
-name: build
-on: push
+env:
+  REGRESSION_TEST_PATH: ${{ format('{0}/{1}/', github.workspace, 'test') }}
+  # TODO - Have to hard-code this for now since Actions don't yet allow the use of env here.
+  LOGS_PATH: ${{ format('{0}/{1}', github.workspace, 'logs') }}
+  DEPLOY_PATH: ${{ format('{0}/{1}/{2}/{3}', github.workspace, 'build', 'development', github.sha) }}
+
 jobs:
-  job1:
+  get_versions:
+    name: Get Applicable PDS4 Versions
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -20,17 +30,23 @@ jobs:
                   versions=$versions'"'$line'"',
               fi
           done < $GITHUB_WORKSPACE/pds4_versions.txt
-          foo="[${versions::-1}]"
-          echo "{\"pds4_version\":${foo}}"
-          echo "::set-output name=matrix::{\"pds4_version\": $foo}"
+          
+          versions="[${versions::-1}]"
+          echo $versions
+          echo "::set-output name=matrix::{\"pds4_version\": $versions}"
 
-  job2:
-    needs: job1
+  build: # job 1
+    name: 'LDD Build'
     runs-on: ubuntu-latest
+    if: github.actor != 'pdsen-ci'
+
     strategy:
-      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
-    #       pds4_version: 
+      matrix: ${{fromJson(needs.get_versions.outputs.matrix)}}
+
     steps:
-    - run:
-        # echo ${{fromJson(needs.job1.outputs.matrix).pds4_version}}
-        echo ${{matrix.pds4_version}}
+      - uses: actions/checkout@v2
+
+      - name: Update submodules for dependencies
+        run: |
+          echo ${{matrix.pds4_version}}
+
