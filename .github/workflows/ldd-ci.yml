@@ -27,10 +27,10 @@ jobs:
   job2:
     needs: job1
     runs-on: ubuntu-latest
-    # strategy:
-    #   matrix: ${{fromJson(needs.job1.outputs.matrix)}}
+    strategy:
+      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
     #       pds4_version: 
     steps:
     - run:
-        echo ${{fromJson(needs.job1.outputs.matrix).pds4_version}}
+        # echo ${{fromJson(needs.job1.outputs.matrix).pds4_version}}
         echo ${{matrix.pds4_version}}
