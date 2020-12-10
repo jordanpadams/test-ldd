@@ -22,7 +22,7 @@ jobs:
           done < $GITHUB_WORKSPACE/pds4_versions.txt
           foo=${versions::-1}
           echo "{\"pds4_version\":${foo}}"
-          echo "::set-output name=matrix::{\"pds4_version\":${foo}}"
+          echo "::set-output name=matrix::{\"pds4_version\":$foo}"
 
   job2:
     needs: job1
