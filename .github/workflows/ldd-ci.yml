@@ -14,6 +14,10 @@ jobs:
     - id: set-matrix
       # run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"1.14.0.0\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
       run: |
+        ls $GITHUB_WORKSPACE
+
+        cat $GITHUB_WORKSPACE/pds4_versions.txt
+
         while read -r line; do
             if [[ ! -z "$line" ]]; then
                 versions=$versions'\"'$line'\"',
