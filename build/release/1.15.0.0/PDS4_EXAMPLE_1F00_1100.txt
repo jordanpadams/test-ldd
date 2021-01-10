@@ -2,12 +2,12 @@ PDS4 Local Data Dictionary Processing Report
 
 Configuration:
    LDDTool Version        12.0.3
-   LDD Version Id:        1.0.0.0
+   LDD Version Id:        1.1.0.0
    LDD Label Version Id:  1.0
    LDD Discipline (T/F):  true
    LDD Namespace URL:     http://pds.nasa.gov/pds4/
    LDD URN Prefix:        urn:nasa:pds:
-   Time                   Sun Jan 10 20:28:47 UTC 2021
+   Time                   Sun Jan 10 20:35:30 UTC 2021
    Common Schema          [PDS4_PDS_1F00.xsd]
    Common Schematron      [PDS4_PDS_1F00.sch]
    IM Version Id:         1.15.0.0
@@ -40,7 +40,7 @@ Detailed validation messages
 
 Parsed Input - Header:
    LDD Name               Example LDD
-   LDD Version            1.0.0.0
+   LDD Version            1.1.0.0
    Full Name              Doe, Jane
    Steward                janedoe
    Namespace Id           example
